@@ -1,40 +1,97 @@
-import useQuote from './useQuote'
+import { useState, useEffect } from 'react'
+import useSound from './hooks/useSound'
+import useMoodCompile from './hooks/useMoodCompile'
+import MoodSelector from './components/MoodSelector'
+import QuoteCard from './components/QuoteCard'
+import Timer from './components/Timer'
 import './App.css'
 
 function App() {
-  const { quote, liked, getRandomQuote, handleLike } = useQuote()
+  const {
+    mood,
+    currentMood,
+    currentQuote,
+    liked,
+    secs,
+    newQuote,
+    changeMood,
+    toggleLike
+  } = useMoodCompile()
 
-  const initials = quote
-    ? quote.author.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
-    : ''
+  const {
+    playWhoosh,
+    playDing,
+    playTick,
+    playMotivated,
+    playStuck,
+    playGrinding,
+    playBurnout
+  } = useSound()
+
+  const moodSounds = {
+    motivated: playMotivated,
+    stuck: playStuck,
+    grinding: playGrinding,
+    burnout: playBurnout
+  }
+
+  const [time, setTime] = useState('')
+  const [date, setDate] = useState('')
+
+  useEffect(() => {
+    const updateClock = () => {
+      const now = new Date()
+      const h = String(now.getHours()).padStart(2, '0')
+      const m = String(now.getMinutes()).padStart(2, '0')
+      const s = String(now.getSeconds()).padStart(2, '0')
+      setTime(`${h}:${m}:${s}`)
+      const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+      setDate(`${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`)
+    }
+    updateClock()
+    const iv = setInterval(updateClock, 1000)
+    return () => clearInterval(iv)
+  }, [])
+
+  useEffect(() => {
+    if (secs === 15) {
+      playDing()
+    }
+    if (secs <= 5 && secs > 0) {
+      playTick()
+    }
+  }, [secs])
+
+  if (!currentQuote) return null
 
   return (
     <div className="app">
-      <p className="tagline">DevQuote Board</p>
-      <h1>Aaj ka motivation</h1>
-
-      {quote && (
-        <div className="quote-card">
-          <p className="quote-text"key={quote.content}>"{quote.content}"</p>
-
-          <div className="author-row">
-            <div className="avatar">{initials}</div>
-            <span className="quote-author">{quote.author}</span>
-          </div>
-
-          <div className="buttons">
-            <button className="btn-new" onClick={getRandomQuote}>
-              🔄 New Quote
-            </button>
-            <button
-              className={`btn-like ${liked ? 'liked' : ''}`}
-              onClick={handleLike}
-            >
-              {liked ? '❤️' : '🤍'} Like
-            </button>
-          </div>
+      <div className="top-row">
+        <span className="title">Mood<span className="highlight">Compile</span></span>
+        <div className="datetime">
+          <div className="time">{time}</div>
+          <div className="date">{date}</div>
         </div>
-      )}
+      </div>
+
+      <MoodSelector
+        currentMood={mood}
+        onMoodChange={(m) => {
+          moodSounds[m]()
+          changeMood(m)
+        }}
+      />
+
+      <QuoteCard
+        currentMood={currentMood}
+        currentQuote={currentQuote}
+        liked={liked}
+        onNewQuote={() => { playWhoosh(); newQuote() }}
+        onLike={() => { playMotivated(); toggleLike() }}
+      />
+
+      <Timer secs={secs} />
     </div>
   )
 }

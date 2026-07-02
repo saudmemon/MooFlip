@@ -1,8 +1,15 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
   background-color: #1a1b2e;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
   background-size: 24px 24px;
   min-height: 100vh;
   display: flex;
@@ -11,124 +18,220 @@ body {
 }
 
 .app {
-  text-align: center;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   padding: 0 16px;
 }
 
-.app .tagline {
-  color: #b8b9d6;
-  font-size: 14px;
-  margin: 0 0 6px;
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.app h1 {
+.title {
   color: white;
-  font-size: 26px;
-  font-weight: 500;
-  margin: 0 0 28px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
 }
 
-.quote-card {
-  background: rgba(255,255,255,0.97);
-  border-radius: 16px;
-  padding: 28px 24px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+.highlight {
+  color: #7F77DD;
+}
+
+.datetime {
+  text-align: right;
+}
+
+.time {
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.date {
+  color: #b8b9d6;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.moods {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.mood-btn {
+  background: rgba(255,255,255,0.07);
+  border: 1.5px solid rgba(255,255,255,0.1);
+  color: #b8b9d6;
+  border-radius: 12px;
+  padding: 11px 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  width: 100%;
+}
+
+.mood-btn:hover {
+  background: rgba(255,255,255,0.12);
+  color: white;
+}
+
+.mood-btn.active {
+  background: rgba(83,74,183,0.35);
+  border-color: #7F77DD;
+  color: white;
+  font-weight: 600;
+}
+
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 26px 22px;
+  margin-bottom: 12px;
+}
+
+.mood-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .quote-text {
-  font-size: 19px;
+  font-size: 18px;
   font-style: italic;
-  color: #2c2c2a;
-  line-height: 1.5;
-  margin: 0;
+  color: #1a1b2e;
+  line-height: 1.6;
+  margin-bottom: 14px;
+  animation: fadeUp 0.6s ease;
 }
 
 .author-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 16px;
+  gap: 10px;
+  margin-bottom: 20px;
+  animation: fadeUp 0.6s ease;
 }
 
 .avatar {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: #534AB7;
   color: white;
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
-.quote-author {
+.author {
   font-size: 13px;
-  color: #5f5e5a;
+  color: #888780;
 }
 
-.buttons {
+.btns {
   display: flex;
   gap: 10px;
-  margin-top: 22px;
-}
-
-button {
-  border: none;
-  border-radius: 10px;
-  padding: 11px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: transform 0.15s;
-}
-
-button:hover {
-  transform: scale(1.03);
 }
 
 .btn-new {
   flex: 1;
   background: #534AB7;
   color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-new:hover {
+  background: #7F77DD;
 }
 
 .btn-like {
   background: #f1eee8;
   color: #2c2c2a;
-  padding: 11px 16px;
+  border: 2px solid #e0dbd2;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-like:hover {
+  background: #e8e4dc;
 }
 
 .btn-like.liked {
   background: #d4537e;
   color: white;
-}
-.quote-text, .author-row {
-  animation: fadeIn 1s ease;
+  border-color: #d4537e;
 }
 
-.quote-card {
-  transition: all 0.3s ease;
+.timer-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 18px 20px;
 }
 
-@keyframes fadeIn {
-  0% {
+.timer-label {
+  color: #b8b9d6;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.timer-val {
+  color: white;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+.progress-bar {
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  margin-top: 10px;
+}
+
+.progress-fill {
+  height: 3px;
+  background: #534AB7;
+  border-radius: 2px;
+  transition: width 1s linear;
+}
+
+@keyframes fadeUp {
+  from {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translateY(14px);
   }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.btn-new:active {
-  transform: scale(0.95);
-}
-
-.btn-like:active {
-  transform: scale(0.95);
 }
