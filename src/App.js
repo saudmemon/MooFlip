@@ -69,13 +69,20 @@ function App() {
 
   useEffect(() => {
     if (!currentQuote) return
+    let isMounted = true
+
     const doTranslate = async () => {
       const text = await translate(currentQuote.text, lang)
       const author = await translate(currentQuote.author, lang)
+      if (!isMounted) return
       setTranslatedText(text)
       setTranslatedAuthor(author)
     }
+
     doTranslate()
+    return () => {
+      isMounted = false
+    }
   }, [currentQuote, lang, translate])
 
   if (!currentQuote) return null
